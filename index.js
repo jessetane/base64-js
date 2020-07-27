@@ -1,19 +1,6 @@
-'use strict'
-
-exports.byteLength = byteLength
-exports.toByteArray = toByteArray
-exports.fromByteArray = fromByteArray
-exports.alphabets = {
+export var alphabets = {
   default: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 }
-
-// Include base64url alphabet
-var alphabets = exports.alphabets
-alphabets.url = alphabets.default.slice(0, -2)
-alphabets.url += '-'
-alphabets.url += '_'
-
-var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
 var lookups = {}
 
 function getLookup (name) {
@@ -61,7 +48,7 @@ function getLens (b64) {
 }
 
 // base64 is 4/3 + up to two characters of the original data
-function byteLength (b64) {
+export function byteLength (b64) {
   var lens = getLens(b64)
   var validLen = lens[0]
   var placeHoldersLen = lens[1]
@@ -72,14 +59,14 @@ function _byteLength (b64, validLen, placeHoldersLen) {
   return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
 }
 
-function toByteArray (b64, alphabet) {
+export function decode (b64, alphabet) {
   var tmp
   var lens = getLens(b64)
   var validLen = lens[0]
   var placeHoldersLen = lens[1]
   var lookup = getLookup(alphabet || 'default').decode
 
-  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen))
+  var arr = new Uint8Array(_byteLength(b64, validLen, placeHoldersLen))
 
   var curByte = 0
 
@@ -139,7 +126,7 @@ function encodeChunk (uint8, start, end, lookup) {
   return output.join('')
 }
 
-function fromByteArray (uint8, alphabet) {
+export function encode (uint8, alphabet) {
   var tmp
   var len = uint8.length
   var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
@@ -174,3 +161,5 @@ function fromByteArray (uint8, alphabet) {
 
   return parts.join('')
 }
+
+export default { encode, decode, byteLength, alphabets }

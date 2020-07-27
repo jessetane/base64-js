@@ -1,5 +1,5 @@
-var test = require('tape')
-var b64 = require('../')
+import b64 from 'base64-transcoder'
+import test from 'tap-esm'
 
 test('convert big data to base64', function (t) {
   var b64str, arr, i, length
@@ -7,8 +7,8 @@ test('convert big data to base64', function (t) {
   for (i = 0, length = big.length; i < length; ++i) {
     big[i] = i % 256
   }
-  b64str = b64.fromByteArray(big)
-  arr = b64.toByteArray(b64str)
+  b64str = b64.encode(big)
+  arr = b64.decode(b64str)
   t.ok(equal(arr, big))
   t.equal(b64.byteLength(b64str), arr.length)
   t.end()
