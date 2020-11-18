@@ -24,7 +24,6 @@ test('default alphabet should also decode url-safe style base64 strings', functi
 })
 
 test('decode base64url', function (t) {
-  b64.alphabets.url = b64.alphabets.default.slice(0, -2) + '-_'
   t.arrayEqual(
     b64.decode('--__', 'url'),
     [251, 239, 255]

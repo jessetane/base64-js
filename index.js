@@ -1,5 +1,7 @@
+var a = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 export var alphabets = {
-  default: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+  default: a,
+  url: a.slice(0, -2) + '-_'
 }
 var lookups = {}
 
